@@ -1,46 +1,58 @@
-let nombre = prompt("Ingrese su nombre completo :");
+// Función para obtener los datos del alumno
+function obtenerDatosAlumno() {
+    let nombre = prompt("Ingrese el nombre del alumno:");
 
-let notaPrimerExamen = parseInt(prompt("Ingrese la nota del primer examen :"));
+    // Salir si se ingresa "fin"
+    if (nombre.toLowerCase() === "fin") {
+        return null;
+    }
 
-let notaSegundoExamen = parseInt(prompt("Ingrese la nota del segundo examen :"));
+    let nota1 = parseFloat(prompt("Ingrese la nota 1 del alumno:"));
+    let nota2 = parseFloat(prompt("Ingrese la nota 2 del alumno:"));
+    let nota3 = parseFloat(prompt("Ingrese la nota 3 del alumno:"));
 
-let notaTercerExamen = parseInt(prompt("Ingrese la nota del tercer e :"));
+    let notas = [nota1, nota2, nota3];
+    let promedio = calcularPromedio(notas);
+    let estado = determinarAprobacion(promedio);
 
-let examenFinal = parseInt(prompt("Ingrese la nota del examen Final : "));
+    console.log(`Nombre: ${nombre}, Notas: ${notas.join(", ")}, Promedio: ${promedio.toFixed(2)}, Estado: ${estado}`);
+    alert(`${nombre} ${estado} con un promedio de ${promedio.toFixed(2)}`);
 
-let notaFinal = (notaPrimerExamen + notaSegundoExamen + notaSegundoExamen + examenFinal) / 4
-
-
-alert("Hola " + nombre + " su nota final es : " + notaFinal);
-
-if (notaFinal > 6) {
-
-    alert("Felicidades " + nombre + ", aprobaste la materia.");
-
-    console.log("Primer examen : " + notaPrimerExamen);
-
-    console.log("Segundo examen : " + notaSegundoExamen);
-
-    console.log("Tercer examen :" + notaTercerExamen);
-
-    console.log("Nota final : " + notaFinal);
+    return {
+        nombre: nombre,
+        notas: notas,
+        promedio: promedio,
+        estado: estado
+    };
 }
 
-if (notaFinal < 7) {
-
-    alert("Lo sentimos " + nombre + ", tu calificación no fue sufuciente para aprobar la materia.");
-
-    alert("Felicidades " + nombre + ", aprobaste la materia.");
-
-    console.log("Primer examen : " + notaPrimerExamen);
-
-    console.log("Segundo examen : " + notaSegundoExamen);
-
-    console.log("Tercer examen :" + notaTercerExamen);
-
-    console.log("Nota final : " + notaFinal);
-
-
+// Función para calcular el promedio de un alumno
+function calcularPromedio(notas) {
+    let suma = notas.reduce((acumulador, nota) => acumulador + nota, 0);
+    return suma / notas.length;
 }
 
+// Función para determinar si el alumno aprobó o desaprobó
+function determinarAprobacion(promedio) {
+    return promedio >= 6 ? "aprobó" : "desaprobó";
+}
 
+// Array para almacenar los datos de los alumnos
+let alumnos = [];
+
+// Ingresar datos de los alumnos
+while (true) {
+    let alumno = obtenerDatosAlumno();
+
+    if (!alumno) {
+        break;
+    }
+
+    alumnos.push(alumno);
+}
+
+// Imprimir promedio final de cada alumno en la consola
+console.log("Promedios finales:");
+alumnos.forEach(alumno => {
+    console.log(`Nombre: ${alumno.nombre}, Promedio: ${alumno.promedio.toFixed(2)}, Estado: ${alumno.estado}`);
+});
